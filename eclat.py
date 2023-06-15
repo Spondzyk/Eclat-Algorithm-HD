@@ -18,10 +18,11 @@ def transform_data_to_algorithm(df, name_of_column):
     return transactions
 
 
-def eclat_algorithm_product_name(df, min_support, min_combination):
+def eclat_algorithm_product_name(df, min_support, min_combination, max_combination):
     folder_name = "name"
     df_bin_file = os.path.join(folder_name, 'df_bin_product_name.csv')
     items_per_transaction_file = os.path.join(folder_name, 'items_per_transaction_product_name.csv')
+    result_file = os.path.join(folder_name, 'result_product_name.csv')
 
     eclat = ECLAT(data=pd.DataFrame(list(transform_data_to_algorithm(df, 'Product Name').values())))
     eclat.df_bin.to_csv(df_bin_file, index=False)  # Save eclat.df_bin to CSV file
@@ -36,7 +37,6 @@ def eclat_algorithm_product_name(df, min_support, min_combination):
     fig = px.bar(df_table.head(20), x='items', y='transactions', hover_data=['items'])
     fig.show()
 
-    max_combination = max(items_per_transaction)
     rule_indices, rule_supports = eclat.fit(min_support=min_support,
                                             min_combination=min_combination,
                                             max_combination=max_combination,
@@ -45,13 +45,15 @@ def eclat_algorithm_product_name(df, min_support, min_combination):
 
     result = pd.DataFrame(rule_supports.items(), columns=['Item Name', 'Support'])
     result = result.sort_values(by=['Support'], ascending=False)
+    result.to_csv(result_file, index=False)
     print(result.head(10))
 
 
-def eclat_algorithm_subcategory_name(df, min_support, min_combination):
+def eclat_algorithm_subcategory_name(df, min_support, min_combination, max_combination):
     folder_name = "subcategory"
     df_bin_file = os.path.join(folder_name, 'df_bin_subcategory_name.csv')
     items_per_transaction_file = os.path.join(folder_name, 'items_per_transaction_subcategory_name.csv')
+    result_file = os.path.join(folder_name, 'result_subcategory_name.csv')
 
     eclat = ECLAT(data=pd.DataFrame(list(transform_data_to_algorithm(df, 'Subcategory Name').values())))
     eclat.df_bin.to_csv(df_bin_file, index=False)  # Save eclat.df_bin to CSV file
@@ -66,7 +68,6 @@ def eclat_algorithm_subcategory_name(df, min_support, min_combination):
     fig = px.bar(df_table.head(20), x='items', y='transactions', hover_data=['items'])
     fig.show()
 
-    max_combination = max(items_per_transaction)
     rule_indices, rule_supports = eclat.fit(min_support=min_support,
                                             min_combination=min_combination,
                                             max_combination=max_combination,
@@ -75,13 +76,15 @@ def eclat_algorithm_subcategory_name(df, min_support, min_combination):
 
     result = pd.DataFrame(rule_supports.items(), columns=['Subcategory Name', 'Support'])
     result = result.sort_values(by=['Support'], ascending=False)
+    result.to_csv(result_file, index=False)
     print(result.head(10))
 
 
-def eclat_algorithm_category_name(df, min_support, min_combination):
+def eclat_algorithm_category_name(df, min_support, min_combination, max_combination):
     folder_name = "category"
     df_bin_file = os.path.join(folder_name, 'df_bin_category_name.csv')
     items_per_transaction_file = os.path.join(folder_name, 'items_per_transaction_category_name.csv')
+    result_file = os.path.join(folder_name, 'result_category_name.csv')
 
     eclat = ECLAT(data=pd.DataFrame(list(transform_data_to_algorithm(df, 'Category Name').values())))
     eclat.df_bin.to_csv(df_bin_file, index=False)  # Save eclat.df_bin to CSV file
@@ -96,7 +99,6 @@ def eclat_algorithm_category_name(df, min_support, min_combination):
     fig = px.bar(df_table.head(20), x='items', y='transactions', hover_data=['items'])
     fig.show()
 
-    max_combination = max(items_per_transaction)
     rule_indices, rule_supports = eclat.fit(min_support=min_support,
                                             min_combination=min_combination,
                                             max_combination=max_combination,
@@ -105,4 +107,5 @@ def eclat_algorithm_category_name(df, min_support, min_combination):
 
     result = pd.DataFrame(rule_supports.items(), columns=['Category Name', 'Support'])
     result = result.sort_values(by=['Support'], ascending=False)
+    result.to_csv(result_file, index=False)
     print(result.head(10))
