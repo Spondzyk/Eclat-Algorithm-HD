@@ -3,7 +3,8 @@ import timeit
 import pandas as pd
 
 from eclat import eclat_algorithm_product_name, eclat_algorithm_subcategory_name, eclat_algorithm_category_name
-from statistics import calculate_product_statistics, calculate_subcategory_statistics, calculate_category_statistics
+from statistics import calculate_product_statistics, calculate_subcategory_statistics, calculate_category_statistics, \
+    get_unique_subcategories, get_unique_categories
 
 
 def read_transactions_csv(filename):
@@ -46,20 +47,22 @@ def product_category_main(min_support, min_combination, max_combination, csv_nam
 
 if __name__ == '__main__':
     csv_name = 'transactions.csv'
-    df = read_transactions_csv(csv_name)
 
     min_support = 1 / 100
     min_combination = 2
     max_combination = 4  # maximum 72, recommended 2 for name, 3 for subcategory, 4 for category
 
+    # df = read_transactions_csv(csv_name)
     # execution_time = timeit.timeit(
     #     lambda: product_name_main(min_support, min_combination, max_combination, csv_name, df), number=1)
     # print(f"Czas wykonania: {execution_time} sekundy")
 
+    # df = get_unique_subcategories(csv_name)
     # execution_time = timeit.timeit(
     #     lambda: product_subcategory_main(min_support, min_combination, max_combination, csv_name, df), number=1)
     # print(f"Czas wykonania: {execution_time} sekundy")
 
+    df = get_unique_categories(csv_name)
     execution_time = timeit.timeit(
         lambda: product_category_main(min_support, min_combination, max_combination, csv_name, df), number=1)
     print(f"Czas wykonania: {execution_time} sekundy")

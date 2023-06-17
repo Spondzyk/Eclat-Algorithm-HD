@@ -1,6 +1,29 @@
 import pandas as pd
 from scipy.stats import mode
 
+def get_unique_subcategories(csv_file):
+    # Wczytaj plik CSV do data frame
+    df = pd.read_csv(csv_file)
+
+    # Usuń duplikaty Subcategory Name w obrębie każdego Transaction ID
+    df_unique = df.drop_duplicates(subset=['Transaction ID', 'Subcategory Name'])
+
+    # Przeformatuj wynikowy data frame
+    result_df = df_unique[['Transaction ID', 'Subcategory Name']]
+
+    return result_df
+
+def get_unique_categories(csv_file):
+    # Wczytaj plik CSV do data frame
+    df = pd.read_csv(csv_file)
+
+    # Usuń duplikaty Subcategory Name w obrębie każdego Transaction ID
+    df_unique = df.drop_duplicates(subset=['Transaction ID', 'Category Name'])
+
+    # Przeformatuj wynikowy data frame
+    result_df = df_unique[['Transaction ID', 'Category Name']]
+
+    return result_df
 
 def calculate_product_statistics(filename):
     df = pd.read_csv(filename)
@@ -16,7 +39,7 @@ def calculate_product_statistics(filename):
 
 
 def calculate_subcategory_statistics(filename):
-    df = pd.read_csv(filename)
+    df = get_unique_subcategories(filename)
     subcategory_counts = df['Subcategory Name'].value_counts()
 
     max_count = subcategory_counts.max()
@@ -29,7 +52,7 @@ def calculate_subcategory_statistics(filename):
 
 
 def calculate_category_statistics(filename):
-    df = pd.read_csv(filename)
+    df = get_unique_categories(filename)
     category_counts = df['Category Name'].value_counts()
 
     max_count = category_counts.max()

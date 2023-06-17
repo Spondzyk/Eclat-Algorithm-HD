@@ -46,7 +46,9 @@ def eclat_algorithm_product_name(df, min_support, min_combination, max_combinati
     result = pd.DataFrame(rule_supports.items(), columns=['Item Name', 'Support'])
     result = result.sort_values(by=['Support'], ascending=False)
     result.to_csv(result_file, index=False)
-    print(result.head(10))
+
+    fig = px.bar(result.head(10), x='Item Name', y='Support', hover_data=['Item Name'])
+    fig.show()
 
 
 def eclat_algorithm_subcategory_name(df, min_support, min_combination, max_combination):
@@ -77,7 +79,9 @@ def eclat_algorithm_subcategory_name(df, min_support, min_combination, max_combi
     result = pd.DataFrame(rule_supports.items(), columns=['Subcategory Name', 'Support'])
     result = result.sort_values(by=['Support'], ascending=False)
     result.to_csv(result_file, index=False)
-    print(result.head(10))
+
+    fig = px.bar(result.head(10), x='Subcategory Name', y='Support', hover_data=['Subcategory Name'])
+    fig.show()
 
 
 def eclat_algorithm_category_name(df, min_support, min_combination, max_combination):
@@ -108,4 +112,7 @@ def eclat_algorithm_category_name(df, min_support, min_combination, max_combinat
     result = pd.DataFrame(rule_supports.items(), columns=['Category Name', 'Support'])
     result = result.sort_values(by=['Support'], ascending=False)
     result.to_csv(result_file, index=False)
-    print(result.head(10))
+
+    fig = px.bar(result.head(10), x='Category Name', y='Support', hover_data=['Category Name'])
+    fig.show()
+
